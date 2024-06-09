@@ -4,10 +4,10 @@ on: [ push, pull_request ]
 
 jobs:
   test:
-    name: Python Tests
+    name: Python tests
     runs-on: ubuntu-latest
     steps:
-      - users: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
