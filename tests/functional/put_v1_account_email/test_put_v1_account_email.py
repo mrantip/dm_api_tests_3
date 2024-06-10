@@ -1,3 +1,4 @@
+import random
 from json import loads
 
 from dm_api_account.apis.account_api import AccountApi
@@ -12,7 +13,7 @@ def test_post_v1_account():
     login_api = LoginApi(host='http://5.63.153.31:5051')
     mailhog_api = MailhogApi(host='http://5.63.153.31:5025')
 
-    login = 'naruto_67'
+    login = f'naruto_{random.randint(1, 1000)}'
     email = f'{login}@gmail.com'
     password = '123456789'
     new_email = f'{login}_1@gmail.com'
@@ -48,6 +49,11 @@ def test_post_v1_account():
     assert response.status_code == 200, 'Пользователь не был активирован'
 
     # Авторизоваться
+    json_data = {
+        'login': login,
+        'password': password,
+        'rememberMe': True,
+    }
 
     response = login_api.post_v1_account_login(json_data=json_data)
     print(response.status_code)
@@ -69,7 +75,7 @@ def test_post_v1_account():
 
     # Пытаемся авторизоваться по новому email
 
-    response = login_api.post_v1_account_login(json_data=json_data_2)
+    response = login_api.post_v1_account_login(json_data=json_data)
     print(response.status_code)
     print(response.text)
     assert response.status_code == 403, 'Пользователь смог авторизоваться'
@@ -82,7 +88,7 @@ def test_post_v1_account():
     assert response.status_code == 200, 'Письма не были получены'
 
     # Получить активационный токен по новому email
-    token = get_activation_token_by_email(login,new_email,response)
+    token = get_activation_token_by_email(login, new_email, response)
     assert token is not None, f'Токен для пользователя {login} не был получен'
 
     # Активация пользователя по новому токену
@@ -94,25 +100,22 @@ def test_post_v1_account():
 
     # Авторизоваться по новому email
 
-    response = login_api.post_v1_account_login(json_data=json_data_2)
+    response = login_api.post_v1_account_login(json_data=json_data)
     print(response.status_code)
     print(response.text)
     assert response.status_code == 200, 'Пользователь не не смог авторизоваться'
-
-
 
 
 def get_activation_token_by_email(
         login,
         new_email,
         response
-        ):
+):
     token = None
     for item in response.json()['items']:
         user_data = loads(item['Content']['Body'])
         user_login = user_data['Login']
         user_email = item['Content']['Headers']['To'][0]
-        if user_login == login:
-            if user_email == new_email:
-                token = user_data['ConfirmationLinkUrl'].split('/')[-1]
+        if user_login == login and user_email == new_email:
+            token = user_data['ConfirmationLinkUrl'].split('/')[-1]
     return token

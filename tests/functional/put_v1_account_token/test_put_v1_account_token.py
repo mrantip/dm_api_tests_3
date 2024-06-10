@@ -1,3 +1,5 @@
+import random
+
 from dm_api_account.apis.account_api import AccountApi
 from dm_api_account.apis.login_api import LoginApi
 from api_mailhog.apis.mailhog_api import MailhogApi
@@ -10,7 +12,7 @@ def test_post_v1_account():
     login_api = LoginApi(host='http://5.63.153.31:5051')
     mailhog_api = MailhogApi(host='http://5.63.153.31:5025')
 
-    login = 'naruto_65'
+    login = f'naruto_{random.randint(1, 1000)}'
     email = f'{login}@gmail.com'
     password = '123456789'
 
