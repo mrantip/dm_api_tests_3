@@ -20,6 +20,20 @@ class AccountApi(RestClient):
         )
         return response
 
+    def get_v1_account(
+            self,
+            **kwargs
+    ):
+        """
+        Get current user
+        :return:
+        """
+        response = self.get(
+            path=f'/v1/account',
+            **kwargs
+        )
+        return response
+
     def put_v1_account_token(
             self,
             token
@@ -44,12 +58,43 @@ class AccountApi(RestClient):
     ):
         """
         Change registered user email
-        :param status_code:
-        :param json change_email_model
+        :param json
         :return:
         """
         response = self.put(
             path=f'/v1/account/email',
             json=json_data
+        )
+        return response
+
+    def post_v1_account_password(
+            self,
+            json_data
+    ):
+        """
+        Reset registered user password
+        :param json_data:
+        :return:
+        """
+        response = self.post(
+            path=f'/v1/account/password',
+            json=json_data
+        )
+        return response
+
+    def put_v1_account_password(
+            self,
+            json_data,
+            **kwargs
+    ):
+        """
+        Change registered user password
+        :param json_data:
+        :return:
+        """
+        response = self.put(
+            path=f'/v1/account/password',
+            json=json_data,
+            **kwargs
         )
         return response
