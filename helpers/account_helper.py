@@ -224,7 +224,6 @@ class AccountHelper:
             user_data = loads(item['Content']['Body'])
             user_login = user_data['Login']
             if user_login == login:
-                print(user_data)
-                # print(user_data['ConfirmationLinkUri'].split('/')[-1])
-                token = user_data['ConfirmationLinkUri'].split('/')[-1]
+                token = str(user_data.get('ConfirmationLinkUri')).split('/')[-1]
+                break
         return token

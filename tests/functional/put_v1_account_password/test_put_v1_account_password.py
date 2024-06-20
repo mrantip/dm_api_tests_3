@@ -12,3 +12,4 @@ def test_put_v1_account_password(
     account_helper.auth_client(login=login, password=password)
     token = account_helper.get_token_for_change_user_password(login=login)
     account_helper.change_user_password(login=login, token=token, oldPassword=password, newPassword=new_password)
+    account_helper.user_login(login=login, password=new_password)
