@@ -9,7 +9,7 @@ def test_get_v1_account_auth(
     account_helper.user_login(login=login, password=password)
     account_helper.reset_user_password(login=login, email=email)
     account_helper.auth_client(login=login, password=password)
-    account_helper.dm_account_api.account_api.get_v1_account()
+    account_helper.get_current_user_info()
 
 
 def test_get_v1_account_noauth(
