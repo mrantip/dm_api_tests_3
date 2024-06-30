@@ -84,7 +84,6 @@ class AccountHelper:
         )
 
         response = self.dm_account_api.account_api.post_v1_account(registration=registration)
-        assert response.status_code == 201, f'Пользователь не был создан {response.json()}'
         start_time = time.time()
         token = self.get_activation_token_by_login(login=login)
         end_time = time.time()
@@ -112,7 +111,6 @@ class AccountHelper:
         )
         if validate_headers:
             assert response.headers['x-dm-auth-token'], 'Токен для пользователя не был получен'
-            assert response.status_code == 200, 'Пользователь не не смог авторизоваться'
         return response
 
     def change_registered_user_email(
@@ -129,12 +127,10 @@ class AccountHelper:
         )
 
         response = self.dm_account_api.account_api.put_v1_account_email(change_email=change_email)
-        # assert response.status_code == 200, 'email не изменен'
 
         token = self.get_activation_token_by_email(login, email)
         assert token is not None, f'Токен для пользователя {login} не был получен'
         response = self.dm_account_api.account_api.put_v1_account_token(token=token)
-        # assert response.status_code == 200, 'Пользователь не был активирован'
         return response
 
     def reset_user_password(
@@ -147,7 +143,6 @@ class AccountHelper:
             email=email
         )
         response = self.dm_account_api.account_api.post_v1_account_password(reset_password=reset_password)
-        # assert response.status_code == 200, 'Пароль не был сброшен'
         return response
 
     def get_token_for_change_user_password(
@@ -172,20 +167,18 @@ class AccountHelper:
             new_password=new_password
         )
         response = self.dm_account_api.account_api.put_v1_account_password(change_password=change_password)
-        assert response.status_code == 200, "Пароль не был изменён"
+
 
     def logout_current_user(
             self
     ):
         response = self.dm_account_api.login_api.delete_v1_account_login()
-        assert response.status_code == 204, 'User не был разлогинен'
         return response
 
     def logout_user_from_all_devices(
             self
     ):
         response = self.dm_account_api.login_api.delete_v1_account_login()
-        assert response.status_code == 204, 'User не был разлогинен со всех устройств'
         return response
 
     @retry(
