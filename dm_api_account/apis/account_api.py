@@ -40,7 +40,7 @@ class AccountApi(RestClient):
             **kwargs
         )
         if validate_response:
-            return UserDetailsEnvelope(**response.json())
+            return UserEnvelope(**response.json())
         return response
 
     def put_v1_account_token(
