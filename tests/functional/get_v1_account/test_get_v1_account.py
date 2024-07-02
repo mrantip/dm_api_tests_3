@@ -17,8 +17,8 @@ def test_get_v1_account_auth(
         GetV1Account.check_response_values(response)
 
 
-# def test_get_v1_account_noauth(
-#         account_helper
-# ):
-#     with check_status_code_http(401, 'User must be authenticated'):
-#         account_helper.dm_account_api.account_api.get_v1_account()
+def test_get_v1_account_noauth(
+        account_helper
+):
+    with check_status_code_http(401, 'User must be authenticated'):
+        account_helper.dm_account_api.account_api.get_v1_account()
