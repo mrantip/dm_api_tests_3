@@ -1,3 +1,7 @@
+import allure
+
+
+@allure.suite("Тесты проверки метода DELETE v1/account/login/all")
 def test_delete_v1_account_login_all(
         account_helper,
         prepare_user

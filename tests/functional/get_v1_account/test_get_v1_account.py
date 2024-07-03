@@ -1,7 +1,10 @@
+import allure
+
 from checkers.get_v1_account import GetV1Account
 from checkers.http_checkers import check_status_code_http
 
-
+@allure.suite("Тесты проверки метода GET v1/account")
+@allure.sub_suite("Получение данных авторизованного пользователя")
 def test_get_v1_account_auth(
         account_helper,
         prepare_user
@@ -17,6 +20,8 @@ def test_get_v1_account_auth(
         GetV1Account.check_response_values(response)
 
 
+@allure.suite("Тесты проверки метода GET v1/account")
+@allure.sub_suite("Получение данных неавторизованного пользователя")
 def test_get_v1_account_noauth(
         account_helper
 ):
