@@ -1,3 +1,7 @@
+import allure
+
+
+@allure.suite("Тесты проверки метода POST v1/account/login")
 def test_post_v1_account(
         account_helper,
         prepare_user
